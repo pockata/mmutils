@@ -157,6 +157,23 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
 }
 
 monitor_t
+get_monitor(xcb_connection_t *conn, char str[]) {
+
+    xcb_window_t win = 0;
+    monitor_t monitor;
+
+    if (startsWith("0x", str)) {
+        win = strtoul(str, NULL, 16);
+        monitor = get_monitor_by_window_id(conn, win);
+    }
+    else {
+        monitor = get_monitor_by_name(conn, str);
+    }
+
+    return monitor;
+}
+
+monitor_t
 get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
     monitor_t *monitors;
@@ -171,7 +188,7 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
     w = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, pfw), NULL);
 
-    current_monitor = monitors[0];
+    current_monitor = (monitor_t) { NULL, 0, 0, 0, 0 };
     current_intersect = 0;
 
     for (int i=0; i<num_monitors; i++) {

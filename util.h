@@ -13,9 +13,11 @@ int startsWith(const char *, const char *);
 
 int get_randr_monitors (xcb_connection_t *, monitor_t **);
 
-monitor_t get_monitor_by_window_id(xcb_connection_t *, xcb_window_t pfw);
+monitor_t get_monitor(xcb_connection_t *, char *);
 
-monitor_t get_monitor_by_name(xcb_connection_t *, char *name);
+monitor_t get_monitor_by_window_id(xcb_connection_t *, xcb_window_t);
+
+monitor_t get_monitor_by_name(xcb_connection_t *, char *);
 
 xcb_window_t get_focused_win(xcb_connection_t *);
 
