@@ -2,7 +2,7 @@ include config.mk
 
 HDR = util.h
 SRC =	\
-	matt.c
+	mattr.c
 
 OBJ = $(SRC:.c=.o)
 BIN = $(SRC:.c=)
