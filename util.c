@@ -70,23 +70,13 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
             NULL
         );
 
-        // Output disconnected or not attached to any CRTC ?
-        if (!oi_reply || oi_reply->crtc == XCB_NONE || oi_reply->connection != XCB_RANDR_CONNECTION_CONNECTED) {
+        // Output disconnected?
+        if (!oi_reply || oi_reply->connection != XCB_RANDR_CONNECTION_CONNECTED) {
             free(oi_reply);
             mons[i].width = 0;
+            mons[i].connected = 0;
+            mons[i].active = 0;
             continue;
-        }
-
-        ci_reply = xcb_randr_get_crtc_info_reply(
-            conn,
-            xcb_randr_get_crtc_info(conn, oi_reply->crtc, XCB_CURRENT_TIME),
-            NULL
-        );
-
-        if (!ci_reply) {
-            fprintf(stderr, "Failed to get RandR ctrc info\n");
-            free(rres_reply);
-            return num_outputs;
         }
 
         int namelen;
@@ -105,7 +95,28 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
         memcpy(name, str, namelen);
         name[namelen] = '\0';
 
-        mons[i] = (monitor_t) { name, ci_reply->x, ci_reply->y, ci_reply->width, ci_reply->height };
+        ci_reply = xcb_randr_get_crtc_info_reply(
+            conn,
+            xcb_randr_get_crtc_info(conn, oi_reply->crtc, XCB_CURRENT_TIME),
+            NULL
+        );
+
+        // If output is active (connected to crtc)
+        if (ci_reply) {
+            mons[i] = (monitor_t) {
+                name,
+                ci_reply->x,
+                ci_reply->y,
+                ci_reply->width,
+                ci_reply->height,
+                1,
+                1
+            };
+        }
+        else {
+            // Otherwise mark it as 'not active'
+            mons[i] = (monitor_t) { name, 0, 0, 0, 0, 0, 1 };
+        }
 
         free(oi_reply);
         free(ci_reply);
@@ -148,7 +159,7 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
     }
 
     for (i = j = 0; i < num && j < valid; i++) {
-        if (mons[i].width != 0) {
+        if (mons[i].connected == 1) {
             (*monitors)[j++] = mons[i];
         }
     }
@@ -188,7 +199,7 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
     w = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, pfw), NULL);
 
-    current_monitor = (monitor_t) { NULL, 0, 0, 0, 0 };
+    current_monitor = (monitor_t) { NULL, 0, 0, 0, 0, 0, 0};
     current_intersect = 0;
 
     for (int i=0; i<num_monitors; i++) {
@@ -227,7 +238,7 @@ get_monitor_by_name(xcb_connection_t *conn, char *name) {
         }
     }
 
-    return (monitor_t) { NULL, 0, 0, 0, 0 };
+    return (monitor_t) { NULL, 0, 0, 0, 0, 0, 0 };
 }
 
 xcb_window_t

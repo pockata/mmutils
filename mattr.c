@@ -11,7 +11,7 @@ static xcb_connection_t *conn;
 
 static void
 usage(char *name) {
-    fprintf(stderr, "usage: %s [-h] [nwhxy] <wid|mid>\n", name);
+    fprintf(stderr, "usage: %s [-h] [-c] [nwhxy] <wid|mid>\n", name);
     exit(1);
 }
 
@@ -32,7 +32,15 @@ main (int argc, char *argv[]) {
 
     if (argc == 2) {
         monitor = get_monitor(conn, argv[1]);
-        ret = monitor.name == NULL ? 1 : 0;
+        ret = monitor.active == 1 ? 0 : 1;
+
+        goto end;
+    }
+
+    if (argc == 3 && strcmp(argv[1], "-c") == 0) {
+
+        monitor = get_monitor(conn, argv[2]);
+        ret = monitor.connected == 1 ? 0 : 1;
 
         goto end;
     }
