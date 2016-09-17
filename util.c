@@ -199,7 +199,7 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
     w = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, pfw), NULL);
 
-    current_monitor = (monitor_t) { NULL, 0, 0, 0, 0, 0, 0};
+    current_monitor = (monitor_t) { NULL, 0, 0, 0, 0, 0, 0 };
     current_intersect = 0;
 
     for (int i=0; i<num_monitors; i++) {
