@@ -9,6 +9,7 @@ Their main purpose is to be used alongside [wmutils](https://github.com/wmutils/
 Here's a list of what is currently implemented:
 
 * lsm - get a list of monitors (active & connected)
+* pfm - get xrandr id of the focused monitor (the monitor which holds the pointer)
 * mattr - get information about a monitor (width, height, x/y offset)
 
 ## Usage
@@ -33,6 +34,21 @@ LVDS1
 VGA1
 VGA-1-2
 HDMI-1-4
+```
+
+### pfm
+
+Gets the xrandr id of the focused monitor.  
+The focused monitor is determined by the pointer coordinates. Whichever monitor holds the pointer is considered as "focused".
+```
+$ pfm
+VGA-1-2
+```
+
+This is useful when combined with `mattr`
+```
+$ mattr whxy $(pfm)
+1920 1080 0 0
 ```
 
 ### mattr
