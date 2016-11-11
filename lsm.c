@@ -17,7 +17,7 @@ enum {
 
 static void
 usage(char *name) {
-    fprintf(stderr, "usage: %s [-h] [-c]\n", name);
+    fprintf(stderr, "usage: %s [-h] [-a]\n", name);
     exit(1);
 }
 
@@ -31,7 +31,7 @@ main(int argc, char **argv) {
     if (
         argc >= 2 &&
         (strncmp(argv[1], "-h", 2) == 0 ||
-         strncmp(argv[1], "-c", 2) != 0)
+         strncmp(argv[1], "-a", 2) != 0)
     ) {
         usage(argv[0]);
 

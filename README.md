@@ -26,10 +26,10 @@ VGA-1-2
 HDMI-1-4
 ```
 
-Passing `-c` will list all active monitors as well as all connected monitors (monitors that are physically connected to a graphics card, but don't have an active X desktop assigned).
+Passing `-a` will list all active monitors as well as all connected monitors (monitors that are physically connected to a graphics card, but don't have an active X desktop assigned).
 
 ```
-$ lsm -c
+$ lsm -a
 LVDS1
 VGA1
 VGA-1-2
