@@ -11,20 +11,23 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
 void
-init_xcb(xcb_connection_t **con) {
+init_xcb(xcb_connection_t **con)
+{
     *con = xcb_connect(NULL, NULL);
     if (xcb_connection_has_error(*con))
         errx(1, "unable connect to the X server");
 }
 
 void
-kill_xcb(xcb_connection_t **con) {
+kill_xcb(xcb_connection_t **con)
+{
     if (*con)
         xcb_disconnect(*con);
 }
 
 int
-get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
+get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors)
+{
     int num_outputs = 0;
 
     xcb_randr_get_screen_resources_current_reply_t *rres_reply;
@@ -73,9 +76,11 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
         // Output disconnected?
         if (!oi_reply || oi_reply->connection != XCB_RANDR_CONNECTION_CONNECTED) {
             free(oi_reply);
+
             mons[i].width = 0;
             mons[i].connected = 0;
             mons[i].active = 0;
+
             continue;
         }
 
@@ -131,17 +136,18 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
         if (mons[i].width == 0)
             continue;
 
-        for (j = 0; j < num; j++) {
+        for (j = 0; j < num; j++)
             // Does I contain J ?
-
-            if (i != j && mons[j].width) {
-                if (mons[j].x >= mons[i].x && mons[j].x + mons[j].width <= mons[i].x + mons[i].width &&
-                    mons[j].y >= mons[i].y && mons[j].y + mons[j].height <= mons[i].y + mons[i].height) {
+            if (i != j && mons[j].width)
+                if (
+                    mons[j].x >= mons[i].x &&
+                    mons[j].x + mons[j].width <= mons[i].x + mons[i].width &&
+                    mons[j].y >= mons[i].y &&
+                    mons[j].y + mons[j].height <= mons[i].y + mons[i].height
+                ) {
                     mons[j].width = 0;
                     valid--;
                 }
-            }
-        }
     }
 
     num_outputs = valid;
@@ -158,17 +164,16 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
         exit(EXIT_FAILURE);
     }
 
-    for (i = j = 0; i < num && j < valid; i++) {
-        if (mons[i].connected == 1) {
+    for (i = j = 0; i < num && j < valid; i++)
+        if (mons[i].connected == 1)
             (*monitors)[j++] = mons[i];
-        }
-    }
 
     return num_outputs;
 }
 
 monitor_t
-get_monitor(xcb_connection_t *conn, char str[]) {
+get_monitor(xcb_connection_t *conn, char str[])
+{
 
     xcb_window_t win = 0;
     monitor_t monitor;
@@ -185,7 +190,8 @@ get_monitor(xcb_connection_t *conn, char str[]) {
 }
 
 monitor_t
-get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
+get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw)
+{
 
     monitor_t *monitors;
     int num_monitors = get_randr_monitors(conn, &monitors);
@@ -212,6 +218,7 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
         if (bottom >= top && right >= left) {
             intersect = (bottom - top) * (right - left);
+
             if (intersect >= current_intersect) {
                 current_intersect = intersect;
                 current_monitor = m;
@@ -223,7 +230,8 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 }
 
 monitor_t
-get_monitor_by_name(xcb_connection_t *conn, char *name) {
+get_monitor_by_name(xcb_connection_t *conn, char *name)
+{
 
     monitor_t *monitors;
     int num_monitors = get_randr_monitors(conn, &monitors);
@@ -233,16 +241,17 @@ get_monitor_by_name(xcb_connection_t *conn, char *name) {
     for (int i=0; i<num_monitors; i++) {
         m = monitors[i];
 
-        if (strcmp(m.name, name) == 0) {
+        if (strcmp(m.name, name) == 0)
             return m;
-        }
+
     }
 
     return (monitor_t) { NULL, 0, 0, 0, 0, 0, 0 };
 }
 
 xcb_window_t
-get_focused_win(xcb_connection_t *conn) {
+get_focused_win(xcb_connection_t *conn)
+{
     xcb_window_t w = 0;
 
     xcb_get_input_focus_cookie_t  ct;
@@ -260,7 +269,8 @@ get_focused_win(xcb_connection_t *conn) {
 }
 
 int
-startsWith(const char *pre, const char *str) {
+startsWith(const char *pre, const char *str)
+{
     size_t lenpre = strlen(pre),
            lenstr = strlen(str);
     return lenstr < lenpre ? 0 : strncmp(pre, str, lenpre) == 0;

@@ -16,13 +16,15 @@ enum {
 };
 
 static void
-usage(char *name) {
+usage(char *name)
+{
     fprintf(stderr, "usage: %s [-h] [-a]\n", name);
     exit(1);
 }
 
 int
-main(int argc, char **argv) {
+main(int argc, char **argv)
+{
     monitor_t *monitors;
     monitor_t m;
     int num_monitors;
@@ -45,19 +47,17 @@ main(int argc, char **argv) {
     switch (argc) {
         case 1: mask |= LIST_ACTIVE; break;
         case 2: mask |= LIST_CONNECTED; break;
-        default:
-            kill_xcb(&conn);
-            usage(argv[0]);
+        default: kill_xcb(&conn); usage(argv[0]);
     }
 
     for (int i=0; i<num_monitors; i++) {
         m = monitors[i];
+
         if (
             (m.active == 1 && mask & LIST_ACTIVE) ||
             (m.connected == 1 && mask & LIST_CONNECTED)
-        ) {
+        )
             printf("%s\n", m.name);
-        }
     }
 
     kill_xcb(&conn);

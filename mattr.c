@@ -10,13 +10,15 @@
 static xcb_connection_t *conn;
 
 static void
-usage(char *name) {
+usage(char *name)
+{
     fprintf(stderr, "usage: %s [-h] [-c] [nwhxy] <wid|mid>\n", name);
     exit(1);
 }
 
 int
-main (int argc, char *argv[]) {
+main (int argc, char **argv)
+{
 
     int cnt, ret = 0;
     size_t i;
@@ -50,9 +52,9 @@ main (int argc, char *argv[]) {
         monitor = get_monitor(conn, argv[cnt]);
 
         // no monitor found
-        if (monitor.name == NULL) {
+        if (monitor.name == NULL)
             errx(1, "%s: no such monitor", argv[cnt]);
-        }
+
 
         for (i=0; i<strlen(argv[1]); i++) {
             switch (argv[1][i]) {
@@ -74,6 +76,7 @@ main (int argc, char *argv[]) {
                     break;
                 default: kill_xcb(&conn); usage(argv[0]);
             }
+
             putc(i+1 < strlen(argv[1]) ? ' ' : '\n', stdout);
         }
     }

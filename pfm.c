@@ -11,14 +11,16 @@ static xcb_screen_t *scr;
 
 // from wmutils' util.c
 void
-get_screen(xcb_connection_t *con, xcb_screen_t **scr) {
+get_screen(xcb_connection_t *con, xcb_screen_t **scr)
+{
     *scr = xcb_setup_roots_iterator(xcb_get_setup(con)).data;
     if (*scr == NULL)
         errx(1, "unable to retrieve screen informations");
 }
 
 void
-get_cursor_position(xcb_connection_t *conn, uint32_t win, int *x, int *y) {
+get_cursor_position(xcb_connection_t *conn, uint32_t win, int *x, int *y)
+{
 
     xcb_query_pointer_reply_t *r;
     xcb_query_pointer_cookie_t c;
@@ -40,7 +42,8 @@ get_cursor_position(xcb_connection_t *conn, uint32_t win, int *x, int *y) {
 }
 
 void
-get_pointer_monitor(xcb_connection_t *conn, int x, int y) {
+get_pointer_monitor(xcb_connection_t *conn, int x, int y)
+{
 
     monitor_t *monitors;
     monitor_t m;
@@ -50,6 +53,7 @@ get_pointer_monitor(xcb_connection_t *conn, int x, int y) {
 
     for (int i=0; i<num_monitors; i++) {
         m = monitors[i];
+
         if (
             x >= m.x && x <= m.x + m.width &&
             y >= m.y && y <= m.y + m.height
@@ -64,7 +68,8 @@ get_pointer_monitor(xcb_connection_t *conn, int x, int y) {
 }
 
 int
-main(int argc, char **argv) {
+main(int argc, char **argv)
+{
 
     int x = 0;
     int y = 0;
