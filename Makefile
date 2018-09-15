@@ -30,15 +30,15 @@ $(OBJ): $(HDR) util.o
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
 	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin/
-	#cd man; $(MAKE) install
+	cp -f $(MAN) $(DESTDIR)$(PREFIX)/share/man/man1/
 
 uninstall:
 	@echo "uninstalling binaries"
 	@for util in $(BIN); do \
 		rm -f $(DESTDIR)$(PREFIX)/bin/$$util; \
 	done
-	#cd man; $(MAKE) uninstall
-
+	@for page in $(MAN); do\
+		rm -f $(DESTDIR)$(PREFIX)/share/man/man1/$$page; \
+	done
 clean :
 	rm -f $(OBJ) $(BIN) util.o
-

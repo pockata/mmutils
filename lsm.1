@@ -1,0 +1,30 @@
+.Dd September 15, 2018
+.Dt LSW 1
+.Os mmutils
+.Sh NAME
+.Nm lsm
+.Nd list monitors
+.Sh SYNOPSIS
+.Nm lsm
+.Op Fl a
+.Op Fl h
+.Sh DESCRIPTION
+.Nm
+get a list of monitors (active and connected)
+.Pp
+By default,
+.Nm
+lists all active monitors. Passing 
+.Fl a ,
+will list all active monitors as well as all connected monitors
+(monitors that are physically connected to a graphics card, but don't
+have an active X desktop assigned.
+.Bl -tag -width Ds
+.It Fl a
+List all monitors.
+.It Fl h
+Output a usage message.
+.El
+.Sh SEE ALSO
+.Xr pfm 1 ,
+.Xr mattr 1

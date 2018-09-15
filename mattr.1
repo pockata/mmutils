@@ -1,0 +1,56 @@
+.Dd September 15, 2018
+.Dt MATTR 1
+.Os mmutils
+.Sh NAME
+.Nm mattr
+.Nd get information about a monitor.
+.Sh SYNOPSIS
+.Nm wattr
+.Op Fl h
+.Op Fl c
+.Op Cm bmiowhxy
+.Ar wid|mid
+.Sh DESCRIPTION
+.Nm
+gets information (connected, active, width, height, x/y offset) about a
+monitor. A monitor can be specified by its xrandr id, or by a window id.
+prints information about the window
+What information is presented depends on the commands given to
+.Nm .
+The queried arguments are printed in the order they are requested,
+separated by a space.
+If no commands are given,
+.Nm
+will return 0 if
+.Ar wid
+or
+.Ar mid
+exist, and 1 otherwise.
+.Bl -tag -width Ds
+.It Cm n
+Print
+.Ar mid
+.It Cm w
+Print
+.Ar mid Ns \(cqs width.
+.It Cm h
+Print
+.Ar mid Ns \(cqs
+height.
+.It Cm x
+Print
+.Ar mid Ns \(cqs
+.EQ
+x
+.EN
+offset.
+.It Cm y
+Print
+.Ar mid Ns \(cqs
+.EQ
+y
+.EN
+offset.
+.Sh SEE ALSO
+.Xr lsm 1,
+.Xr pfm 1
