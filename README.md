@@ -163,8 +163,11 @@ Or by setting them via the environment:
     CC=c99; export CC
     make -e
 
+## LICENSE
+ISC. See LICENSE file
+
 ## TODO
-- [ ] Manpages
+- [x] Manpages
 - [ ] Code cleanup
 - [ ] Get primary monitor (if selected)
 
