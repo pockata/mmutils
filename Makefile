@@ -30,8 +30,8 @@ $(OBJ): $(HDR) util.o
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
 	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin/
-	mkdir -p $(DESTDIR)$(PREFIX)/share/man/man1/
-	cp -f $(MAN) $(DESTDIR)$(PREFIX)/share/man/man1/
+	mkdir -p $(DESTDIR)$(MANPREFIX)/man1/
+	cp -f $(MAN) $(DESTDIR)$(MANPREFIX)/man1/
 
 uninstall:
 	@echo "uninstalling binaries"
@@ -39,7 +39,7 @@ uninstall:
 		rm -f $(DESTDIR)$(PREFIX)/bin/$$util; \
 	done
 	@for page in $(MAN); do\
-		rm -f $(DESTDIR)$(PREFIX)/share/man/man1/$$page; \
+		rm -f $(DESTDIR)$(MANPREFIX)/man1/$$page; \
 	done
 clean :
 	rm -f $(OBJ) $(BIN) util.o
