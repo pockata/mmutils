@@ -30,6 +30,7 @@ $(OBJ): $(HDR) util.o
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
 	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/share/man/man1/
 	cp -f $(MAN) $(DESTDIR)$(PREFIX)/share/man/man1/
 
 uninstall:
