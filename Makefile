@@ -41,5 +41,6 @@ uninstall:
 	@for page in $(MAN); do\
 		rm -f $(DESTDIR)$(MANPREFIX)/man1/$$page; \
 	done
-clean :
+
+clean:
 	rm -f $(OBJ) $(BIN) util.o
