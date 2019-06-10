@@ -3,33 +3,31 @@
 .Os mmutils
 .Sh NAME
 .Nm mattr
-.Nd get information about a monitor.
+.Nd get information about a monitor
 .Sh SYNOPSIS
-.Nm wattr
+.Nm mattr
 .Op Fl h
 .Op Fl c
 .Op Cm inwhxys
 .Ar wid|mid
 .Sh DESCRIPTION
 .Nm
-gets information (connected, active, width, height, x/y offset) about a
-monitor. A monitor can be specified by its xrandr id, or by a window id.
-prints information about the window
-What information is presented depends on the commands given to
-.Nm .
+gets information (connection status, active status, width, height, x/y offset)
+about a monitor. A monitor can be specified by its xrandr id (\fImid\fR), by a
+window id (\fIwid\fR). The information is printed to standard output. What
+information is presented depends on the commands given to.
+.sp
 The queried arguments are printed in the order they are requested,
-separated by a space.
-If no commands are given,
+separated by a space. If no commands are given,
 .Nm
-will return 0 if
-.Ar wid
-or
-.Ar mid
-exist, and 1 otherwise.
+will return 0 if the monitor exist, and 1 otherwise.
 .Bl -tag -width Ds
 .It Cm n
 Print
-.Ar mid
+.Ar mid Ns .
+.It Cm i
+Print
+.Ar mid Ns \ (wmutils compat).
 .It Cm w
 Print
 .Ar mid Ns \(cqs width.
@@ -59,6 +57,9 @@ passed as an argument. Useful only when
 .Ar wid
 is passed. Otherwise equivalent to 
 .Ar i/n Ns .
+.sp
 .Sh SEE ALSO
-.Xr lsm 1,
-.Xr pfm 1
+.sp
+\fBlsm\fR(1),
+\fBpfm\fR(1)
+

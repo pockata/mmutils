@@ -3,28 +3,30 @@
 .Os mmutils
 .Sh NAME
 .Nm lsm
-.Nd list monitors
+.Nd list active/connected xrandr monitors
 .Sh SYNOPSIS
 .Nm lsm
 .Op Fl a
 .Op Fl h
 .Sh DESCRIPTION
 .Nm
-get a list of monitors (active and connected)
+gets a list of monitors (active and connected).
 .Pp
 By default,
 .Nm
 lists all active monitors. Passing 
 .Fl a ,
-will list all active monitors as well as all connected monitors
-(monitors that are physically connected to a graphics card, but don't
-have an active X desktop assigned.
+it will list all active monitors as all connected monitors (monitors that are
+physically connected to a graphics card, but don't have an active X desktop
+assigned).
 .Bl -tag -width Ds
 .It Fl a
 List all monitors.
 .It Fl h
 Output a usage message.
 .El
+.sp
 .Sh SEE ALSO
-.Xr pfm 1 ,
-.Xr mattr 1
+.sp
+\fBpfm\fR(1),
+\fBmattr\fR(1)
