@@ -8,7 +8,7 @@
 .Nm wattr
 .Op Fl h
 .Op Fl c
-.Op Cm bmiowhxy
+.Op Cm inwhxys
 .Ar wid|mid
 .Sh DESCRIPTION
 .Nm
@@ -51,6 +51,14 @@ Print
 y
 .EN
 offset.
+.It Cm s
+Print the
+.Ar mid/wid
+.EN
+passed as an argument. Useful only when 
+.Ar wid
+is passed. Otherwise equivalent to 
+.Ar i/n Ns .
 .Sh SEE ALSO
 .Xr lsm 1,
 .Xr pfm 1

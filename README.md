@@ -113,6 +113,46 @@ VGA-1-2 1680 1050 3840 0
 HDMI-1-4 1920 1080 1920 0
 ```
 
+**Piping**
+
+There's a special case when using `mattr` in conjunction with other command
+line tools. Since `mattr` allows both `mid` and `wid` to be passed as an
+argument and `i` and `n` returning only `mid`, chaining the output with other
+applications can be a bit troublesome, e.g. to get a list of all the windows
+and monitors they're shown in you'd need to use something like this:
+```
+$ mattr i $(lsw)
+HDMI2
+VGA1
+HDMI2
+```
+
+This doesn't do us much good as we lose the `wid`s returned by `lsw`. To get
+the proper output we need something like this:
+
+```
+$ for wid in $(lsw); do
+    printf '%s\n' "$(mattr i $wid) $wid"
+
+DisplayPort-2 0x01e0000a
+DisplayPort-1 0x00c000f1
+DisplayPort-1 0x00c000a6
+HDMI-A-2 0x01400003
+```
+
+This isn't pretty to look at or write so the `s` parameter comes into play. It
+returns the passed argument to `mattr` and streamlines the whole process, e.g.
+
+```
+$ mattr si $(lsw)
+0x01400010 HDMI2
+0x01400010 VGA1
+0x01400010 HDMI2
+```
+
+Note that `s` is only useful when you're passing a `wid` to `mattr`. In the
+case when you're passing a `mid`, `s` is equivalent to `i` and `n`.
+
 ## Usage with wmutils
 
 A simple usage example with wmutils would be to change the `contrib` repo script [fullscreen.sh](https://github.com/wmutils/contrib/blob/master/fullscreen.sh) for basic multi-monitor capabilities.  

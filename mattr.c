@@ -17,7 +17,6 @@ usage(char *name) {
 
 int
 main (int argc, char *argv[]) {
-
     int cnt, ret = 0;
     size_t i;
     monitor_t monitor;
@@ -46,7 +45,6 @@ main (int argc, char *argv[]) {
     }
 
     for (cnt=2; argv[cnt]; cnt++) {
-
         monitor = get_monitor(conn, argv[cnt]);
 
         // no monitor found
@@ -71,6 +69,14 @@ main (int argc, char *argv[]) {
                     break;
                 case 'y':
                     printf("%d", monitor.y);
+                    break;
+
+                // Return the ID of the window/monitor that's passed as the
+                // last argument. It's useful only if the argument is a window
+                // ID so we can continue piping/chaining of commands. If it's a
+                // monitor ID, it's identical to `i` and `n`.
+                case 's':
+                    printf("%s", argv[2]);
                     break;
                 default: kill_xcb(&conn); usage(argv[0]);
             }
