@@ -114,7 +114,7 @@ window is selected.
 $ mattr iwh $(pfw)
 HDMI-1-4 1920 1080
 ```
-Note: `pfw` is part of wmutils. It returns the id of the currently focused
+**Note**: `pfw` is part of wmutils. It returns the id of the currently focused
 window.
 
 ### Using them together
@@ -200,7 +200,21 @@ should be made.
 
 mmutils only relies on the XCB library.
 
-## Build & Install
+## Installation
+
+### Arch Linux
+```
+aur -S mmutils-git
+```
+**Note**: The [AUR package](https://aur.archlinux.org/packages/mmutils-git/) is not maintained by me.
+
+### Void Linux
+```
+xbps-install -S mmutils
+```
+**Note**: The [package](https://github.com/void-linux/void-packages/blob/master/srcpkgs/mmutils/template) is not maintained by me.
+
+### Building mmutils
 
 System-wide installation (default PREFIX is `/usr`):
 
