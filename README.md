@@ -91,13 +91,13 @@ $ mattr xy "VGA1"
 
 Useful for piping
 ```
-$ mattr i "VGA1"
+$ mattr n "VGA1"
 VGA1
 ```
 
 All together now
 ```
-$ mattr ixywh "VGA-1-2"
+$ mattr nxywh "VGA-1-2"
 VGA-1-2 3840 0 1680 1050
 ```
 
@@ -111,7 +111,7 @@ placed between two monitors, the monitor which displays the largest part of the
 window is selected.
 
 ```
-$ mattr iwh $(pfw)
+$ mattr nwh $(pfw)
 HDMI-1-4 1920 1080
 ```
 **Note**: `pfw` is part of wmutils. It returns the id of the currently focused
@@ -120,7 +120,7 @@ window.
 ### Using them together
 Getting info about all active monitors is as simple as
 ```
-$ mattr iwhxy $(lsm)
+$ mattr nwhxy $(lsm)
 VGA1 1920 1080 0 0
 VGA-1-2 1680 1050 3840 0
 HDMI-1-4 1920 1080 1920 0
@@ -130,11 +130,11 @@ HDMI-1-4 1920 1080 1920 0
 
 There's a special case when using `mattr` in conjunction with other command
 line tools. Since `mattr` allows both `mid` and `wid` to be passed as an
-argument and `i` and `n` returning only `mid`, chaining the output with other
+argument and `n` returning only `mid`, chaining the output with other
 applications can be a bit troublesome, e.g. to get a list of all the windows
 and monitors they're shown in you'd need to use something like this:
 ```
-$ mattr i $(lsw)
+$ mattr n $(lsw)
 HDMI2
 VGA1
 HDMI2
@@ -145,7 +145,7 @@ the proper output we need something like this:
 
 ```
 $ for wid in $(lsw); do
-    printf '%s\n' "$(mattr i $wid) $wid"
+    printf '%s\n' "$(mattr n $wid) $wid"
 
 DisplayPort-2 0x01e0000a
 DisplayPort-1 0x00c000f1
@@ -157,14 +157,14 @@ This isn't pretty to look at or write so the `s` parameter comes into play. It
 returns the passed argument to `mattr` and streamlines the whole process, e.g.
 
 ```
-$ mattr si $(lsw)
+$ mattr sn $(lsw)
 0x01400010 HDMI2
 0x01400010 VGA1
 0x01400010 HDMI2
 ```
 
 Note that `s` is only useful when you're passing a `wid` to `mattr`. In the
-case when you're passing a `mid`, `s` is equivalent to `i` and `n`.
+case when you're passing a `mid`, `s` is equivalent to `n`.
 
 ## Usage with wmutils
 
