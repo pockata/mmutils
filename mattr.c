@@ -76,7 +76,7 @@ main (int argc, char *argv[]) {
                 // ID so we can continue piping/chaining of commands. If it's a
                 // monitor ID, it's identical to `i` and `n`.
                 case 's':
-                    printf("%s", argv[2]);
+                    printf("%s", argv[cnt]);
                     break;
                 default: kill_xcb(&conn); usage(argv[0]);
             }
