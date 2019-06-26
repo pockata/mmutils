@@ -44,10 +44,17 @@ main(int argc, char **argv) {
 
     num_monitors = get_randr_monitors(conn, &monitors);
 
-    switch (argv[1][1]) {
-        case 'a': mask |= LIST_CONNECTED; break;
-        case 'p': mask |= GET_PRIMARY; break;
-        default: mask |= LIST_ACTIVE;
+    if (argc >= 2) {
+        switch (argv[1][1]) {
+            case 'a': mask |= LIST_CONNECTED; break;
+            case 'p': mask |= GET_PRIMARY; break;
+            default:
+                kill_xcb(&conn);
+                usage(argv[0]);
+        }
+    }
+    else {
+        mask |= LIST_ACTIVE;
     }
 
     for (int i=0; i<num_monitors; i++) {
