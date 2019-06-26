@@ -1,6 +1,6 @@
 typedef struct monitor_t {
     char *name;
-    int x, y, width, height, active, connected;
+    int x, y, width, height, active, connected, primary;
 } monitor_t;
 
 xcb_visualid_t get_visual (void);

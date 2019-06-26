@@ -28,6 +28,7 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
     int num_outputs = 0;
 
     xcb_randr_get_screen_resources_current_reply_t *rres_reply;
+    xcb_randr_get_output_primary_reply_t *primary_monitor;
     xcb_randr_output_t *outputs;
 
     int i, j, num, valid = 0;
@@ -50,7 +51,6 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
     num = xcb_randr_get_screen_resources_current_outputs_length(rres_reply);
     outputs = xcb_randr_get_screen_resources_current_outputs(rres_reply);
 
-
     // There should be at least one output
     if (num < 1) {
         free(rres_reply);
@@ -58,6 +58,13 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
     }
 
     monitor_t mons[num];
+
+    // get the primary monitor, if available
+    primary_monitor = xcb_randr_get_output_primary_reply (
+        conn,
+        xcb_randr_get_output_primary(conn, scr->root),
+        NULL
+    );
 
     // Get all outputs
     for (i = 0; i < num; i++) {
@@ -103,6 +110,12 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
 
         // If output is active (connected to crtc)
         if (ci_reply) {
+            int is_primary = 0;
+
+            if (primary_monitor != NULL) {
+                is_primary = (int) primary_monitor->output == outputs[i];
+            }
+
             mons[i] = (monitor_t) {
                 name,
                 ci_reply->x,
@@ -110,12 +123,13 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
                 ci_reply->width,
                 ci_reply->height,
                 1,
-                1
+                1,
+                is_primary
             };
         }
         else {
             // Otherwise mark it as 'not active'
-            mons[i] = (monitor_t) { name, 0, 0, 0, 0, 0, 1 };
+            mons[i] = (monitor_t) { name, 0, 0, 0, 0, 0, 1, 0 };
         }
 
         free(oi_reply);
@@ -125,6 +139,7 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
     }
 
     free(rres_reply);
+    free(primary_monitor);
 
     // Check for clones and inactive outputs
     for (i = 0; i < num; i++) {
@@ -199,7 +214,7 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
     w = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, pfw), NULL);
 
-    current_monitor = (monitor_t) { NULL, 0, 0, 0, 0, 0, 0 };
+    current_monitor = (monitor_t) { NULL, 0, 0, 0, 0, 0, 0, 0 };
     current_intersect = 0;
 
     for (int i=0; i<num_monitors; i++) {
@@ -238,7 +253,7 @@ get_monitor_by_name(xcb_connection_t *conn, char *name) {
         }
     }
 
-    return (monitor_t) { NULL, 0, 0, 0, 0, 0, 0 };
+    return (monitor_t) { NULL, 0, 0, 0, 0, 0, 0, 0 };
 }
 
 xcb_window_t
