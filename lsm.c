@@ -57,6 +57,7 @@ main(int argc, char **argv) {
         mask |= LIST_ACTIVE;
     }
 
+    int matches = 0;
     for (int i=0; i<num_monitors; i++) {
         m = monitors[i];
         if (
@@ -65,7 +66,12 @@ main(int argc, char **argv) {
             (m.primary == 1 && mask & GET_PRIMARY)
         ) {
             printf("%s\n", m.name);
+            matches++;
         }
+    }
+
+    if (mask & GET_PRIMARY && !matches) {
+        return 1;
     }
 
     kill_xcb(&conn);
