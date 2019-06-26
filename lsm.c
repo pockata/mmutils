@@ -12,12 +12,13 @@ static void usage(char *);
 
 enum {
     LIST_ACTIVE = 1 << 0,
-    LIST_CONNECTED = 1 << 1
+    LIST_CONNECTED = 1 << 1,
+    GET_PRIMARY = 1 << 2,
 };
 
 static void
 usage(char *name) {
-    fprintf(stderr, "usage: %s [-h] [-a]\n", name);
+    fprintf(stderr, "usage: %s [-h] [-a] [-p]\n", name);
     exit(1);
 }
 
@@ -31,7 +32,8 @@ main(int argc, char **argv) {
     if (
         argc >= 2 &&
         (strncmp(argv[1], "-h", 2) == 0 ||
-         strncmp(argv[1], "-a", 2) != 0)
+         (strncmp(argv[1], "-a", 2) != 0 &&
+         strncmp(argv[1], "-p", 2) != 0))
     ) {
         usage(argv[0]);
 
@@ -42,19 +44,18 @@ main(int argc, char **argv) {
 
     num_monitors = get_randr_monitors(conn, &monitors);
 
-    switch (argc) {
-        case 1: mask |= LIST_ACTIVE; break;
-        case 2: mask |= LIST_CONNECTED; break;
-        default:
-            kill_xcb(&conn);
-            usage(argv[0]);
+    switch (argv[1][1]) {
+        case 'a': mask |= LIST_CONNECTED; break;
+        case 'p': mask |= GET_PRIMARY; break;
+        default: mask |= LIST_ACTIVE;
     }
 
     for (int i=0; i<num_monitors; i++) {
         m = monitors[i];
         if (
             (m.active == 1 && mask & LIST_ACTIVE) ||
-            (m.connected == 1 && mask & LIST_CONNECTED)
+            (m.connected == 1 && mask & LIST_CONNECTED) ||
+            (m.primary == 1 && mask & GET_PRIMARY)
         ) {
             printf("%s\n", m.name);
         }

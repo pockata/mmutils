@@ -11,7 +11,7 @@ much anything runs on top of Xorg.
 
 Here's a list of what is currently implemented:
 
-* lsm - get a list of monitors (active & connected)
+* lsm - get a list of monitors (active, connected, and primary)
 * pfm - get xrandr id of the focused monitor (the monitor which holds the pointer)
 * mattr - get information about a monitor (width, height, x/y offset, connection status)
 
@@ -40,6 +40,16 @@ LVDS1
 VGA1
 VGA-1-2
 HDMI-1-4
+```
+
+Passing `-p` will output the primary monitor, if it's available.
+```
+$ lsm -p
+VGA1
+```
+The primary monitor is set via `xrandr`:
+```
+$ xrandr --output VGA1 --primary
 ```
 
 ### pfm
@@ -245,5 +255,5 @@ ISC. See LICENSE file
 ## TODO
 - [x] Manpages
 - [ ] Code cleanup
-- [ ] Get primary monitor (if selected)
+- [x] Get primary monitor (if selected)
 

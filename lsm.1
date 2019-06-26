@@ -10,18 +10,18 @@
 .Op Fl h
 .Sh DESCRIPTION
 .Nm
-gets a list of monitors (active and connected).
+gets a list of monitors (active, connected, and primary).
 .Pp
 By default,
 .Nm
-lists all active monitors. Passing 
-.Fl a ,
-it will list all active monitors as all connected monitors (monitors that are
-physically connected to a graphics card, but don't have an active X desktop
-assigned).
+lists all active monitors.
 .Bl -tag -width Ds
 .It Fl a
-List all monitors.
+List all active monitors as well as all connected monitors
+(monitors that are physically connected to a graphics card, but don't have an
+active X desktop assigned).
+.It Fl p
+Get the primary monitor.
 .It Fl h
 Output a usage message.
 .El
