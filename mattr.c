@@ -11,7 +11,7 @@ static xcb_connection_t *conn;
 
 static void
 usage(char *name) {
-    fprintf(stderr, "usage: %s [-h] [-c] [nwhxy] <wid|mid>\n", name);
+    fprintf(stderr, "usage: %s [-h] [-c] [nwhxyd] <wid|mid>\n", name);
     exit(1);
 }
 
@@ -69,6 +69,9 @@ main (int argc, char *argv[]) {
                     break;
                 case 'y':
                     printf("%d", monitor.y);
+                    break;
+                case 'd':
+                    printf("%d", monitor.num);
                     break;
 
                 // Return the ID of the window/monitor that's passed as the

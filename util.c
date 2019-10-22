@@ -116,6 +116,7 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
                 is_primary = (int) primary_monitor->output == outputs[i];
             }
 
+            // TODO: Avoid the boolean trap
             mons[i] = (monitor_t) {
                 name,
                 ci_reply->x,
@@ -129,6 +130,7 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
         }
         else {
             // Otherwise mark it as 'not active'
+            // TODO: Avoid the boolean trap
             mons[i] = (monitor_t) { name, 0, 0, 0, 0, 0, 1, 0 };
         }
 
@@ -214,11 +216,19 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
     w = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, pfw), NULL);
 
+    // TODO: Avoid the boolean trap
     current_monitor = (monitor_t) { NULL, 0, 0, 0, 0, 0, 0, 0 };
     current_intersect = 0;
 
+    int inactive_monitors = 0;
+
     for (int i=0; i<num_monitors; i++) {
         m = monitors[i];
+
+        if (!m.active) {
+            inactive_monitors++;
+            continue;
+        }
 
         top = max(w->y, m.y);
         left = max(w->x, m.x);
@@ -228,6 +238,9 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
         if (bottom >= top && right >= left) {
             intersect = (bottom - top) * (right - left);
             if (intersect >= current_intersect) {
+                // set the monitor num to match xrandr screen number. the count
+                // excludes inactive monitors
+                m.num = i - inactive_monitors;
                 current_intersect = intersect;
                 current_monitor = m;
             }
@@ -245,15 +258,25 @@ get_monitor_by_name(xcb_connection_t *conn, char *name) {
 
     monitor_t m;
 
+    int inactive_monitors = 0;
     for (int i=0; i<num_monitors; i++) {
         m = monitors[i];
 
+        if (!m.active) {
+            inactive_monitors++;
+            continue;
+        }
+
         if (strcmp(m.name, name) == 0) {
+            // set the monitor num to match xrandr screen number. the count
+            // excludes inactive monitors
+            m.num = i - inactive_monitors;
             return m;
         }
     }
 
-    return (monitor_t) { NULL, 0, 0, 0, 0, 0, 0, 0 };
+    // TODO: Avoid the boolean trap
+    return (monitor_t) { NULL, 0, 0, 0, 0, 0, 0, 0, 0 };
 }
 
 xcb_window_t
