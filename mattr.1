@@ -8,7 +8,7 @@
 .Nm mattr
 .Op Fl h
 .Op Fl c
-.Op Cm inwhxys
+.Op Cm inwhxyds
 .Ar wid|mid
 .Sh DESCRIPTION
 .Nm
@@ -27,7 +27,7 @@ Print
 .Ar mid Ns .
 .It Cm i
 Print
-.Ar mid Ns \ (wmutils compat).
+.Ar mid Ns \ (wmutils compat) (DEPRECATED).
 .It Cm w
 Print
 .Ar mid Ns \(cqs width.
@@ -57,6 +57,11 @@ passed as an argument. Useful only when
 .Ar wid
 is passed. Otherwise equivalent to 
 .Ar n Ns .
+.It Cm d
+Print
+.Ar mid Ns \(cqs
+.EN
+Xorg screen number
 .sp
 .Sh SEE ALSO
 .sp
