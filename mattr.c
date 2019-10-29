@@ -11,7 +11,7 @@ static xcb_connection_t *conn;
 
 static void
 usage(char *name) {
-    fprintf(stderr, "usage: %s [-h] [-c] [nwhxyd] <wid|mid>\n", name);
+    fprintf(stderr, "usage: %s [-h] [-c] [nwhxyds] <wid|mid>\n", name);
     exit(1);
 }
 
