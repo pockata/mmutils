@@ -7,6 +7,8 @@
 .Sh SYNOPSIS
 .Nm lsm
 .Op Fl a
+.Op Fl am
+.Op Fl p
 .Op Fl h
 .Sh DESCRIPTION
 .Nm
@@ -20,6 +22,8 @@ lists all active monitors.
 List all active monitors as well as all connected monitors
 (monitors that are physically connected to a graphics card, but don't have an
 active X desktop assigned).
+.It Fl am
+Like \fI-a\fR, but include mirrored/cloned outputs
 .It Fl p
 Get the primary monitor.
 .It Fl h

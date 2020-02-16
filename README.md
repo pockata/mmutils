@@ -32,7 +32,7 @@ HDMI-1-4
 
 Passing `-a` will list all active monitors as well as all connected monitors
 (monitors that are physically connected to a graphics card, but don't have an
-active X desktop assigned).
+active X desktop assigned). Mirrored/cloned monitors are excluded by default.
 
 ```
 $ lsm -a
@@ -41,6 +41,7 @@ VGA1
 VGA-1-2
 HDMI-1-4
 ```
+Passing `-am` will do the same as `-a`, but it will include all mirrored/cloned monitors.
 
 Passing `-p` will output the primary monitor, if it's available.
 ```

@@ -25,6 +25,11 @@ kill_xcb(xcb_connection_t **con) {
 
 int
 get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
+    return get_all_randr_monitors(conn, monitors, 0);
+}
+
+int
+get_all_randr_monitors (xcb_connection_t *conn, monitor_t **monitors, int show_clones) {
     int num_outputs = 0;
 
     xcb_randr_get_screen_resources_current_reply_t *rres_reply;
@@ -145,9 +150,15 @@ get_randr_monitors (xcb_connection_t *conn, monitor_t **monitors) {
 
     // Check for clones and inactive outputs
     for (i = 0; i < num; i++) {
+        // ignore inactive monitors
         if (mons[i].width == 0)
             continue;
 
+        if (show_clones) {
+            continue;
+        }
+
+        // ignore clones
         for (j = 0; j < num; j++) {
             // Does I contain J ?
 

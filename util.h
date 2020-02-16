@@ -12,6 +12,8 @@ void kill_xcb(xcb_connection_t **);
 
 int startsWith(const char *, const char *);
 
+int get_all_randr_monitors(xcb_connection_t *, monitor_t **, int);
+
 int get_randr_monitors (xcb_connection_t *, monitor_t **);
 
 monitor_t get_monitor(xcb_connection_t *, char *);

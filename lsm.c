@@ -18,7 +18,7 @@ enum {
 
 static void
 usage(char *name) {
-    fprintf(stderr, "usage: %s [-h] [-a] [-p]\n", name);
+    fprintf(stderr, "usage: %s [-h] [-a] [-am] [-p]\n", name);
     exit(1);
 }
 
@@ -42,7 +42,11 @@ main(int argc, char **argv) {
 
     init_xcb(&conn);
 
-    num_monitors = get_randr_monitors(conn, &monitors);
+    // include cloned/mirrored outputs?
+    int show_clones = argc >= 2 && (strncmp(argv[1], "-am", 3) == 0);
+
+    // get all monitors
+    num_monitors = get_all_randr_monitors(conn, &monitors, show_clones);
 
     if (argc >= 2) {
         switch (argv[1][1]) {
