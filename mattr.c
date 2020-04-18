@@ -44,6 +44,13 @@ main (int argc, char *argv[]) {
         goto end;
     }
 
+    if (argc == 3 && strcmp(argv[1], "-g") == 0) {
+        monitor = get_monitor(conn, argv[2]);
+        printf("%dx%d+%d+%d", monitor.width, monitor.height, monitor.x, monitor.y);
+
+        goto end;
+    }
+
     for (cnt=2; argv[cnt]; cnt++) {
         monitor = get_monitor(conn, argv[cnt]);
 
