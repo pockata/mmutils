@@ -8,6 +8,7 @@
 .Nm mattr
 .Op Fl h
 .Op Fl c
+.Op Fl g
 .Op Cm inwhxyds
 .Ar wid|mid
 .Sh DESCRIPTION
@@ -17,6 +18,26 @@ about a monitor. A monitor can be specified by its xrandr id (\fImid\fR), by a
 window id (\fIwid\fR). The information is printed to standard output. What
 information is presented depends on the commands given to.
 .sp
+
+.Sh Special flags
+.Nm
+accepts special flags which change it's default behavior
+of printing monitor info to standard output.
+
+.Bl -tag -width Ds
+.It Cm -g
+Print
+.Ar mid Ns \'s dimensions in standard geometry format (WIDTHxHEIGHT+X+Y).
+
+.It Cm -c
+Return 0 if
+.Ar mid Ns \ is connected, 1 otherwise. A monitor is marked as
+"connected" and not "active" when the monitor is physically connected to a
+graphics card output, but doesn't have an active Xorg screen.
+.sp
+
+.Sh Output modifier arguments
+
 The queried arguments are printed in the order they are requested,
 separated by a space. If no commands are given,
 .Nm
@@ -53,9 +74,9 @@ offset.
 Print the
 .Ar mid/wid
 .EN
-passed as an argument. Useful only when 
+passed as an argument. Useful only when
 .Ar wid
-is passed. Otherwise equivalent to 
+is passed. Otherwise equivalent to
 .Ar n Ns .
 .It Cm d
 Print
