@@ -91,7 +91,7 @@ $ mattr -c "VGA1" && echo "VGA1 connected"
 Get VGA1's dimensions in standard geometry format
 ```
 $ mattr -g "VGA1"
-1920x1080x0x0
+1920x1080+0+0
 ```
 
 Get width and height of VGA1
