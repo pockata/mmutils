@@ -56,6 +56,10 @@ main (int argc, char *argv[]) {
     for (cnt=2; argv[cnt]; cnt++) {
         monitor = get_monitor(conn, argv[cnt]);
 
+        if (!monitor.active) {
+            errx(1, "monitor %s not active", argv[cnt]);
+        }
+
         // no monitor found
         if (monitor.name == NULL) {
             errx(1, "%s: no such monitor", argv[cnt]);

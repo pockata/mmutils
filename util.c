@@ -238,7 +238,6 @@ get_monitor_by_window_id(xcb_connection_t *conn, xcb_window_t pfw) {
 
         if (!m.active) {
             inactive_monitors++;
-            continue;
         }
 
         top = max(w->y, m.y);
@@ -275,7 +274,6 @@ get_monitor_by_name(xcb_connection_t *conn, char *name) {
 
         if (!m.active) {
             inactive_monitors++;
-            continue;
         }
 
         if (strcmp(m.name, name) == 0) {
