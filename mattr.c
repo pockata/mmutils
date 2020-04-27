@@ -11,7 +11,7 @@ static xcb_connection_t *conn;
 
 static void
 usage(char *name) {
-    fprintf(stderr, "usage: %s [-h] [-c] [nwhxyds] <wid|mid>\n", name);
+    fprintf(stderr, "usage: %s [-h] [-c] [-g] [nwhxyds] <wid|mid>\n", name);
     exit(1);
 }
 
@@ -40,6 +40,15 @@ main (int argc, char *argv[]) {
 
         monitor = get_monitor(conn, argv[2]);
         ret = monitor.connected == 1 ? 0 : 1;
+
+        goto end;
+    }
+
+    // output the monitor dimensions in the standard geometry format
+    // (WIDTHxHEIGHT+X+Y)
+    if (argc == 3 && strcmp(argv[1], "-g") == 0) {
+        monitor = get_monitor(conn, argv[2]);
+        printf("%dx%d+%d+%d", monitor.width, monitor.height, monitor.x, monitor.y);
 
         goto end;
     }

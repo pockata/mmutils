@@ -88,6 +88,12 @@ Check if VGA1 is connected
 $ mattr -c "VGA1" && echo "VGA1 connected"
 ```
 
+Get VGA1's dimensions in standard geometry format
+```
+$ mattr -g "VGA1"
+1920x1080x0x0
+```
+
 Get width and height of VGA1
 ```
 $ mattr wh "VGA1"
